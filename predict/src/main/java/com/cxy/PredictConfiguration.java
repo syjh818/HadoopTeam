@@ -11,7 +11,7 @@ public class PredictConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(Predict.class)
-    public PredictImpl predict(PredictProperties predictProperties){
-        return new PredictImpl(predictProperties);
+    public BayesPredictImpl predict(PredictProperties predictProperties){
+        return new BayesPredictImpl(predictProperties);
     }
 }
