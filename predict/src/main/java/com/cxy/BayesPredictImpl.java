@@ -52,7 +52,6 @@ public class BayesPredictImpl implements Predict{
 
     public BayesPredictImpl(PredictProperties predictProperties) {
         this.predictProperties = predictProperties;
-        initModel(predictProperties.getModelPath());//读取模型
     }
 
     /**
@@ -62,6 +61,10 @@ public class BayesPredictImpl implements Predict{
      * @return 返回包装类PredictVO
      */
     public PredictVO predict(String expectation, String word){
+        //检查模型是否初始化
+        if(trainingCount == 0L){
+            initModel(predictProperties.getModelPath());
+        }
         double priori;
         double likelihood;
         double predictProbability = 0L;
