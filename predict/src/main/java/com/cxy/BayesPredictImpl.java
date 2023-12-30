@@ -94,52 +94,22 @@ public class BayesPredictImpl implements Predict{
         return predict(null, word);
 
     }
-    /*public PredictVO predict(String line){
-        String expectation = line.contains(":") ? line.split(":")[0] : line.split("：")[0];
-        String word = line.contains(":") ? line.split(":")[1] : line.split("：")[1];
-        double priori;
-        double likelihood;
-        double predictProbability = 0L;
-        String predictLabel = "";
-        //计算属于各个类别的概率
-        for (String label : labelSet) {
-            //计算先验概率
-            priori = labelMap.get(label) /  (double)trainingCount;
-            likelihood = 1L;
-            boolean flag = false;
-            //获取所有特征，使用多项式原理计算似然概率
-            for (String feature : word.split(" ")) {
-                if(!(labelAndFeatureMap.get(label + "_" + feature) == null)){//训练数据集有该组合
-                    likelihood *=  labelAndFeatureMap.get(label + "_" + feature)
-                            / (double)labelMap.get(label);
-                    flag = true;
-                }
-            }
-            //flag为false意味着训练集中没有任何类标_词语与之匹配，跳过比较
-            if(flag && predictProbability < likelihood * priori){//替换预测结果为此次循环的label
-                predictProbability = likelihood * priori;
-                predictLabel = label;
-            }
-        }
-        return new PredictVO(word, expectation, predictLabel);
-
-    }*/
-
 
     @Override
-    public List<PredictVO> predict(File file) {
+    public List<PredictVO> predict(InputStream file) {
         BufferedWriter writer;
         BufferedReader reader;
         List<PredictVO> predictVOList = new LinkedList<>();
         try {
             writer = new BufferedWriter(new FileWriter(predictProperties.getOutputPath()));
-            reader = new BufferedReader(new FileReader(file));
+            reader = new BufferedReader(new InputStreamReader(file));
             String line;
+            int i = 1;//记录行号
             while ((line = reader.readLine()) != null) {
                 String expectation = line.contains(":") ? line.split(":")[0] : line.split("：")[0];
                 String word = line.contains(":") ? line.split(":")[1] : line.split("：")[1];
                 PredictVO predictVO = predict(expectation, word);
-                writer.write("1\t" + predictVO.getExpectation());
+                writer.write(i++ + "\t" + predictVO.getExpectation());
                 predictVOList.add(predictVO);
             }
         } catch (Exception e) {
@@ -148,31 +118,4 @@ public class BayesPredictImpl implements Predict{
         }
         return predictVOList;
     }
-
-    /*public static void main(String[] args) throws IOException {
-        int trueCount = 0;
-        int falseCount = 0;
-        String modelPath = "D:\\hadoop\\modeloutput\\part-r-00000";
-        initModel(modelPath);
-        String testPath = "D:\\hadoop\\test.txt";
-        BufferedReader bufferedReader =
-                new BufferedReader(new FileReader(testPath));
-        //逐行读入模型
-        String line = bufferedReader.readLine();
-        while(line != null){
-            String trueLabel = line.contains(":") ? line.split(":")[0] : line.split("：")[0];
-            System.out.print(line);
-            String predictLabel = predict(line);
-            System.out.println("\t预测结果：" + predictLabel);
-            if(trueLabel.equals(predictLabel)){
-                trueCount++;
-            }else{
-                falseCount++;
-            }
-            line = bufferedReader.readLine();
-        }
-        //System.out.println("预测正确：" + trueCount);
-        //System.out.println("预测错误：" + falseCount);
-        System.out.println("正确率：" + (double)trueCount / (trueCount + falseCount));
-    }*/
 }

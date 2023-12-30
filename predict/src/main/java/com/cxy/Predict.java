@@ -1,6 +1,7 @@
 package com.cxy;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 public interface Predict {
@@ -17,5 +18,5 @@ public interface Predict {
      * @param file 待预测的文件
      * @return 返回PredictVO的List
      */
-    List<PredictVO> predict(File file);
+    List<PredictVO> predict(InputStream file);
 }
