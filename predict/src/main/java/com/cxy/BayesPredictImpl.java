@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BayesPredictImpl implements Predict{
     private PredictProperties predictProperties;
-    private PredictProperties predictProperties1;
+    private PredictProperties predictProperties2;
     //记录每一个类标_词语及其计数
     private static final HashMap<String, Integer> labelAndFeatureMap = new HashMap<>();
     //记录每一个类标及其计数
