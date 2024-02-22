@@ -68,6 +68,7 @@ public class BayesPredictImpl implements Predict{
         double priori;
         double priori;
         double likelihood;
+        double likelihood1;
         double predictProbability = 0L;
         String predictLabel = "";
         //计算属于各个类别的概率
