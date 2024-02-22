@@ -45,7 +45,6 @@ public class BayesPredictImpl implements Predict{
             }
         } catch (IOException e) {
             log.error("读取模型文件错误");
-            log.error("读取模型文件错误");
             throw new RuntimeException(e);
         }
     }
@@ -66,6 +65,7 @@ public class BayesPredictImpl implements Predict{
         if(trainingCount == 0L){
             initModel(predictProperties.getModelPath());
         }
+        double priori;
         double priori;
         double likelihood;
         double predictProbability = 0L;
